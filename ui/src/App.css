@@ -1,0 +1,218 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --page-bg: #f0f2f5;
+  --card-bg: #ffffff;
+  --display-bg: #1e293b;
+  --display-text: #ffffff;
+  --btn-bg: #f1f5f9;
+  --btn-text: #0f172a;
+  --btn-hover: #e2e8f0;
+  --btn-op-bg: #e0e7ff;
+  --btn-op-text: #4338ca;
+  --btn-op-hover: #c7d2fe;
+  --btn-danger-bg: #fee2e2;
+  --btn-danger-text: #b91c1c;
+  --btn-danger-hover: #fecaca;
+  --btn-equals-bg: #6366f1;
+  --btn-equals-hover: #4f46e5;
+  --text-color: #0f172a;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  --scrollbar-track: rgba(255, 255, 255, 0.05);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.2);
+}
+
+body.dark-mode {
+  /* Karanlık Tema */
+  --page-bg: #0f172a;
+  --card-bg: #1e293b;
+  --display-bg: #0b1120;
+  --display-text: #38bdf8;
+  --btn-bg: #334155;
+  --btn-text: #f8fafc;
+  --btn-hover: #475569;
+  --btn-op-bg: #312e81;
+  --btn-op-text: #c7d2fe;
+  --btn-op-hover: #3730a3;
+  --btn-danger-bg: #7f1d1d;
+  --btn-danger-text: #fecaca;
+  --btn-danger-hover: #991b1b;
+  --btn-equals-bg: #4f46e5;
+  --btn-equals-hover: #4338ca;
+  --text-color: #f8fafc;
+  --shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+  --scrollbar-track: rgba(56, 189, 248, 0.05);
+  --scrollbar-thumb: rgba(56, 189, 248, 0.3);
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--page-bg);
+  transition: background-color 0.4s ease; 
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+}
+
+.calculator-card {
+  background: var(--card-bg);
+  width: 100%;
+  max-width: 360px;
+  border-radius: 16px;
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  transition: background-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.display-panel {
+  background: var(--display-bg);
+  border-radius: 12px;
+  padding: 1.25rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  min-height: 140px;
+  justify-content: flex-end;
+  transition: background-color 0.4s ease;
+}
+
+.main-display {
+  color: var(--display-text);
+  font-weight: 600;
+  width: 100%;
+  text-align: right;
+  word-break: break-all;
+  max-height: 110px;
+  overflow-y: auto;
+  line-height: 1.1;
+  padding-right: 4px;
+}
+
+.main-display::-webkit-scrollbar {
+  width: 6px;
+}
+.main-display::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+  border-radius: 8px;
+}
+.main-display::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 8px;
+}
+
+.error-banner {
+  color: #ef4444;
+  font-size: 0.85rem;
+  background: #fee2e2;
+  border: 1px solid #fca5a5;
+  padding: 0.5rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.6rem;
+}
+
+.btn {
+  padding: 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 10px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
+}
+.btn:hover { background: var(--btn-hover); }
+.btn:active { transform: scale(0.96); }
+
+.btn-op {
+  background: var(--btn-op-bg);
+  color: var(--btn-op-text);
+}
+.btn-op:hover { background: var(--btn-op-hover); }
+
+.btn-danger {
+  background: var(--btn-danger-bg);
+  color: var(--btn-danger-text);
+}
+.btn-danger:hover { background: var(--btn-danger-hover); }
+
+.btn-equals {
+  grid-column: span 2;
+  background: var(--btn-equals-bg);
+  color: #ffffff; 
+  font-weight: 600;
+}
+.btn-equals:hover { background: var(--btn-equals-hover); }
+
+.theme-switch-wrapper {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.2rem;
+}
+
+.theme-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 26px;
+}
+
+.theme-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #cbd5e1;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #6366f1; 
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px); 
+}
