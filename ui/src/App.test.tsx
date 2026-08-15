@@ -122,7 +122,7 @@ describe('Scientific Calculator Component', () => {
 
   it('shows an error message if the backend returns an error', async () => {
     mockedAxios.post.mockRejectedValueOnce({
-      response: { data: { error: 'Geçersiz matematiksel ifade' } }
+      response: { data: { error: 'Invalid mathematical expression' } }
     });
 
     render(<App />);
@@ -134,7 +134,7 @@ describe('Scientific Calculator Component', () => {
     fireEvent.click(screen.getByText('='));
 
     await waitFor(() => {
-      const errorBanner = screen.getByText('Geçersiz matematiksel ifade');
+      const errorBanner = screen.getByText('Invalid mathematical expression');
       expect(errorBanner).toBeInTheDocument();
     });
   });

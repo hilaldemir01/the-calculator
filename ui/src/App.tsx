@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:8080';
+const API_URL = `http://${window.location.hostname}:8080`;
 
 export default function App() {
   const [expression, setExpression] = useState<string>('0');
@@ -66,7 +66,7 @@ export default function App() {
       if (lastNumberMatch) {
         const digitCount = lastNumberMatch[0].replace('.', '').length;
         if (digitCount >= 15) {
-          setError('Bir sayı en fazla 15 haneli olabilir');
+          setError('A number can have at most 15 digits');
           setTimeout(() => setError(''), 3000);
           return; 
         }
@@ -105,19 +105,19 @@ export default function App() {
     }
   };
 
-  const handleEquals = async () => {
-    try {
-      const sanitizedExpr = sanitizeExpressionForApi(expression);
-      const response = await axios.post(`${API_URL}/api/calculate`, {
-        expression: sanitizedExpr,
-      });
-      setExpression(String(response.data.result));
-      setIsResult(true);
-    } catch (err: any) {
-      const errorMsg = err.response?.data?.error || 'Geçersiz İfade';
-      setError(errorMsg);
-    }
-  };
+const handleEquals = async () => {
+  try {
+    const sanitizedExpr = sanitizeExpressionForApi(expression);
+    const response = await axios.post(`${API_URL}/api/calculate`, {
+      expression: sanitizedExpr,
+    });
+    setExpression(String(response.data.result));
+    setIsResult(true);
+  } catch (err: any) {
+    const errorMsg = err.response?.data?.error || 'Invalid mathematical expression';
+    setError(errorMsg);
+  }
+};
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {

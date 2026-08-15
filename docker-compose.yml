@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - "8080:8080"
+    container_name: sezzle-backend
+
+  frontend:
+    build:
+      context: ./ui
+    ports:
+      - "5173:80"
+    container_name: sezzle-frontend
+    depends_on:
+      - backend

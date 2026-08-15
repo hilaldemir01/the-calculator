@@ -10,12 +10,10 @@ import (
 	"github.com/rs/cors"
 )
 
-// React'ten gelecek JSON formatı
 type CalcRequest struct {
 	Expression string `json:"expression"`
 }
 
-// React'e döneceğimiz JSON formatı
 type CalcResponse struct {
 	Result float64 `json:"result,omitempty"`
 	Error  string  `json:"error,omitempty"`
@@ -29,7 +27,7 @@ func calculateHandler(w http.ResponseWriter, r *http.Request) {
 
 	var req CalcRequest
 	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
-		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Geçersiz JSON formatı"})
+		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Invalid JSON format"})
 		return
 	}
 
@@ -39,13 +37,13 @@ func calculateHandler(w http.ResponseWriter, r *http.Request) {
 
 	program, err := expr.Compile(req.Expression, expr.Env(env))
 	if err != nil {
-		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Geçersiz matematiksel ifade"})
+		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Invalid mathematical expression"})
 		return
 	}
 
 	result, err := expr.Run(program, env)
 	if err != nil {
-		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Hesaplama hatası"})
+		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Calculation Error: " + err.Error()})
 		return
 	}
 
@@ -58,7 +56,7 @@ func calculateHandler(w http.ResponseWriter, r *http.Request) {
 	case int64:
 		finalResult = float64(v)
 	default:
-		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Bilinmeyen sonuç tipi"})
+		sendJSON(w, http.StatusBadRequest, CalcResponse{Error: "Unknown result type"})
 		return
 	}
 
@@ -78,7 +76,7 @@ func main() {
 
 	handler := cors.Default().Handler(mux)
 
-	log.Println("Go Backend sunucusu 8080 portunda başlatıldı...")
+	log.Println("Go Backend server started on port 8080...")
 
 	if err := http.ListenAndServe(":8080", handler); err != nil {
 		log.Fatal(err)

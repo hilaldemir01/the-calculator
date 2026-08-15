@@ -1,6 +1,6 @@
 module sezzle-calculator-backend
 
-go 1.26.6
+go 1.24.0
 
 require (
 	github.com/expr-lang/expr v1.17.8 // indirect
